@@ -1,15 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Composer template
+composer.phar
+/vendor/
 .idea/
-!.gitignore
-composer.lock
-node_modules
-db/migration/.registers
-vendor/
-package-lock.json
-public
-!.gitkeep
-!public/**/.gitkeep
-!public/index.php
-!public/robots.txt
-!public/.htaccess
-!public/favicon.ico
-.env.json
+
+# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+# composer.lock
+

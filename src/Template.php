@@ -6,21 +6,22 @@ namespace Yoda;
 class Template
 {
     /**
-     * @var string|string
+     * Plain string to parse.
+     *
+     * @var string
      */
     private $content;
 
     /**
+     * Contains template variables.
+     *
      * @var array
      */
     private $variables;
 
     /**
-     * @var array
-     */
-    private $opts;
-
-    /**
+     * Template name.
+     *
      * @var null|string
      */
     private $tplName;
@@ -31,36 +32,24 @@ class Template
      * @param string $content
      * @param array $variables
      * @param string|null $tplName
-     * @param array $opts
-     * @throws \Exception
      */
-    public function __construct(
-        string $content,
-        array $variables = [],
-        ?string $tplName = null,
-        array $opts = ['isPath' => true]
-    )
+    public function __construct(string $content, array $variables = [], ?string $tplName = null)
     {
-        if ($opts['isPath'] && !file_exists($content)) {
-            throw new \Exception('Template does not exists!');
-        }
-
         $this->content = $content;
         $this->variables = $variables;
-        $this->opts = $opts;
         $this->tplName = $tplName;
     }
 
+    /**
+     * @return string
+     */
     public function getContent(): string
     {
-        if ($this->opts['isPath']) {
-            return file_get_contents($this->content);
-        }
-        return $this->content;
+        return file_exists($this->content) ? file_get_contents($this->content) : $this->content;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getVariables(): array
     {
@@ -83,5 +72,15 @@ class Template
     public function __set($name, $value)
     {
         $this->variables[$name] = $value;
+    }
+
+    public function __get($name)
+    {
+        return $this->variables[$name];
+    }
+
+    public function __isset($name)
+    {
+        return array_key_exists($name, $this->variables);
     }
 }
