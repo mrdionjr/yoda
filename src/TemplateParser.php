@@ -2,14 +2,16 @@
 
 namespace Yoda;
 
-
+/**
+ * @author Salomon Dion <dev.mrdion@gmail.com>
+ */
 class TemplateParser
 {
     public static $START_DELIMITER = '{{';
     public static $END_DELIMITER = '}}';
 
     /**
-     * Parse a template.
+     * Replace shortcodes by their corresponding value from the template variables.
      *
      * @param Template $template
      * @param null|string $startDelimiter
@@ -29,7 +31,7 @@ class TemplateParser
                 return $variables[$key];
             }
 
-            throw new \Exception("Missing variable '{$key}' for shortcode '{$shortcode}'.", 1);
+            throw new InvalidShortCodeException("Missing variable '{$key}' for shortcode '{$shortcode}'.", 1);
 
         }, $template->getContent());
 

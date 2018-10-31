@@ -2,7 +2,9 @@
 
 namespace Yoda;
 
-
+/**
+ * @author Salomon Dion <dev.mrdion@gmail.com>
+ */
 class Template
 {
     /**
