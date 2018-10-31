@@ -31,7 +31,7 @@ class TemplateParser
                 return $variables[$key];
             }
 
-            throw new InvalidShortCodeException("Missing variable '{$key}' for shortcode '{$shortcode}'.", 1);
+            throw new MissingVariableException("Missing variable '{$key}' for shortcode '{$shortcode}'.", 1);
 
         }, $template->getContent());
 
