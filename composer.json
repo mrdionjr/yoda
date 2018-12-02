@@ -1,17 +1,19 @@
 {
   "name": "mrdion/yoda",
   "license": "MIT",
+  "version": "0.1.0",
   "authors": [
     {
       "name": "Salomon Dion",
-      "email": "dev.mrdion@gmail.com"
+      "email": "dev.mrdion@gmail.com",
+      "role": "Lead Developer"
     }
   ],
   "support": {
-    "issues": "https://github.com/mrdionjr/php-template-parser/issues",
-    "source": "https://github.com/mrdionjr/php-template-parser"
+    "issues": "https://github.com/mrdionjr/yoda/issues",
+    "source": "https://github.com/mrdionjr/yoda"
   },
-  "keywords": ["template", "parser"],
+  "keywords": ["template", "parser", "csv parser"],
   "autoload": {
     "psr-4": {
       "Yoda\\": "src/"
@@ -23,9 +25,11 @@
     }
   },
   "require": {
-    "php": "~7.1"
+    "php": "~7.1",
+    "symfony/console": "^4.2"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "phpunit/phpunit": "^7.4.3"
   }
 }
