@@ -1,0 +1,15 @@
+{
+  "chmod": "0755",
+  "main": "bin/yoda",
+  "output": "bin/yoda.phar",
+
+  "directories": ["src"],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": ["test", "tests"],
+      "in": "vendor"
+    }
+  ],
+  "stub": true
+}
