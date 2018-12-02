@@ -12,14 +12,12 @@ class SimpleParser implements ParserInterface
      * Replace shortcodes by their corresponding value from the template variables.
      *
      * @param Template $template
-     * @param string|null $startDelimiter
-     * @param string|null $endDelimiter
+     * @param array $options
      * @return mixed
      */
-    public static function parse(Template $template, ?string $startDelimiter = null, ?string $endDelimiter = null)
+    public static function parse(Template $template, array $options = [])
     {
-        $pattern = '/' . $startDelimiter . '\W*(.*?)\W*' . $endDelimiter . '/';
-        $parsed = preg_replace_callback($pattern, function ($matches) use ($template) {
+        return preg_replace_callback($options['pattern'], function ($matches) use ($template) {
             [$shortcode, $key] = $matches;
             $variables = $template->getVariables();
 
@@ -30,7 +28,5 @@ class SimpleParser implements ParserInterface
             throw new MissingVariableException("Missing variable '{$key}' for shortcode '{$shortcode}'.", 1);
 
         }, $template->getContent());
-
-        return $parsed;
     }
 }
