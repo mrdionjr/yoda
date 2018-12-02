@@ -2,6 +2,9 @@
 
 namespace Yoda;
 
+use Yoda\Parsers\ParserInterface;
+use Yoda\Parsers\SimpleParser;
+
 /**
  * @author Salomon Dion <dev.mrdion@gmail.com>
  */
@@ -9,32 +12,36 @@ class TemplateParser
 {
     public static $START_DELIMITER = '{{';
     public static $END_DELIMITER = '}}';
+    /** @var ParserInterface */
+    public static $parser;
 
     /**
      * Replace shortcodes by their corresponding value from the template variables.
      *
      * @param Template $template
-     * @param null|string $startDelimiter
-     * @param null|string $endDelimiter
+     * @param string|null $startDelimiter
+     * @param string|null $endDelimiter
      * @return null|string|string[]
      */
     public static function parse(Template $template, ?string $startDelimiter = null, ?string $endDelimiter = null)
     {
         $startDelimiter = $startDelimiter ?? self::$START_DELIMITER;
         $endDelimiter = $endDelimiter ?? self::$END_DELIMITER;
-        $pattern = '/' . $startDelimiter . '\W*(.*?)\W*' . $endDelimiter . '/';
-        $parsed = preg_replace_callback($pattern, function ($matches) use ($template) {
-            [$shortcode, $key] = $matches;
-            $variables = $template->getVariables();
 
-            if (isset($variables[$key]) ) {
-                return $variables[$key];
-            }
+        if (self::$parser === null) {
+            return SimpleParser::parse($template, $startDelimiter, $endDelimiter);
+        }
 
-            throw new MissingVariableException("Missing variable '{$key}' for shortcode '{$shortcode}'.", 1);
+        return self::$parser::parse($template, $startDelimiter, $endDelimiter);
+    }
 
-        }, $template->getContent());
-
-        return $parsed;
+    /**
+     * Set the parser to use.
+     *
+     * @param ParserInterface $parser
+     */
+    public static function setParser(ParserInterface $parser): void
+    {
+        self::$parser = $parser;
     }
 }
