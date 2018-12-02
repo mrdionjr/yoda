@@ -12,24 +12,33 @@ use Symfony\Component\Console\Question\Question;
 use Yoda\Template;
 use Yoda\TemplateParser;
 
-class ParseFileCommand extends Command
+/**
+ * Class ParseFileCommand
+ *
+ * @package Yoda\Commands
+ * @author Salomon Dion <dev.mrdion@gmail.com>
+ */
+final class ParseFileCommand extends Command
 {
-    protected static $defaultName = 'file';
+    protected static $defaultName = 'parse';
     private $variables = [];
 
     protected function configure()
     {
-        $this->setDescription('Parses a file')->setHelp('This command allows you to parse a file');
-        $this->addArgument('file', InputArgument::REQUIRED, 'File path');
-        $this->addOption('keys', 'k', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The variables to look for (separate keys with a space)');
-        $this->addOption('output', 'o', InputOption::VALUE_OPTIONAL, 'Output path');
+        $this
+            ->setDescription('Replace shortcodes with their corresponding values.')
+            ->setHelp('You can find the documentation at https://github.com/mrdion/yoda')
+            ->addArgument('path', InputArgument::REQUIRED, 'File path')
+            ->addArgument('keys', InputArgument::IS_ARRAY, 'The variables to look for (separate keys with a space)')
+            ->addOption('output', 'o', InputOption::VALUE_OPTIONAL, 'Output path');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
-        $keys = $input->getOption('keys');
+        // The first item is the name of the argument
+        $keys = array_slice($input->getArgument('keys'), 1);
 
         foreach ($keys as $key) {
             $question = new Question("Please enter the value for $key: ");
@@ -40,7 +49,7 @@ class ParseFileCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $file_path = $input->getArgument('file');
+        $file_path = $input->getArgument('path');
         ['dirname' => $dirname, 'extension' => $extension, 'filename' => $filename] = pathinfo($file_path);
         $template = new Template($file_path, $this->variables);
         $content = TemplateParser::parse($template);
