@@ -1,9 +1,9 @@
-#!/usr/bin/env php
+#!/usr/bin/php
 
 <?php
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$application = new \Symfony\Component\Console\Application();
+$application = new \Symfony\Component\Console\Application('Yoda CLI', '0.1.0');
 $application->add(new \Yoda\Commands\ParseFileCommand());
 $application->run();
