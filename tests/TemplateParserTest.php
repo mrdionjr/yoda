@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Yoda\MissingVariableException;
 use Yoda\Parsers\CsvParser;
 use Yoda\Template;
 use Yoda\TemplateParser;
@@ -38,10 +37,8 @@ class TemplateParserTest extends TestCase
         $this->assertRegExp('/Yoda/', $result[0]);
     }
 
-    public function test_should_throw_exception_if_missing_variable()
+    protected function tearDown()
     {
-        $template = new Template('{{ name }}');
-        $this->expectException(MissingVariableException::class);
-        TemplateParser::parse($template);
+        TemplateParser::use(null);
     }
 }

@@ -14,6 +14,9 @@
     "source": "https://github.com/mrdionjr/yoda"
   },
   "keywords": ["template", "parser", "csv parser"],
+  "scripts": {
+  "test": "phpunit"
+  },
   "autoload": {
     "psr-4": {
       "Yoda\\": "src/"

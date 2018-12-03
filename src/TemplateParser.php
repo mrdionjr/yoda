@@ -37,7 +37,7 @@ class TemplateParser
      *
      * @param ParserInterface $parser
      */
-    public static function use(ParserInterface $parser): void
+    public static function use(?ParserInterface $parser): void
     {
         self::$parser = $parser;
     }
