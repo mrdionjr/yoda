@@ -10,8 +10,6 @@ use Yoda\Parsers\SimpleParser;
  */
 class TemplateParser
 {
-    public static $START_DELIMITER = '{{';
-    public static $END_DELIMITER = '}}';
     /** @var ParserInterface */
     public static $parser;
 
@@ -19,20 +17,19 @@ class TemplateParser
      * Replace shortcodes by their corresponding value from the template variables.
      *
      * @param Template $template
-     * @param string|null $startDelimiter
-     * @param string|null $endDelimiter
+     * @param array $options
      * @return null|string|string[]
      */
-    public static function parse(Template $template, ?string $startDelimiter = null, ?string $endDelimiter = null)
+    public static function parse(Template $template, array $options = [])
     {
-        $startDelimiter = $startDelimiter ?? self::$START_DELIMITER;
-        $endDelimiter = $endDelimiter ?? self::$END_DELIMITER;
+        ['start' => $start, 'end' => $end] = $template->getDelimiters();
+        $options['pattern'] = '/' . $start . '\W*(.*?)\W*' . $end . '/';
 
         if (self::$parser === null) {
-            return SimpleParser::parse($template, $startDelimiter, $endDelimiter);
+            return SimpleParser::parse($template, $options);
         }
 
-        return self::$parser::parse($template, $startDelimiter, $endDelimiter);
+        return self::$parser::parse($template, $options);
     }
 
     /**
@@ -40,7 +37,7 @@ class TemplateParser
      *
      * @param ParserInterface $parser
      */
-    public static function setParser(ParserInterface $parser): void
+    public static function use(ParserInterface $parser): void
     {
         self::$parser = $parser;
     }

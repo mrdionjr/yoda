@@ -8,6 +8,11 @@ namespace Yoda;
 class Template
 {
     /**
+     * @var string Shortcode delimiters
+     */
+    public static $delimiters = '{{|}}';
+
+    /**
      * Plain string to parse.
      *
      * @var string
@@ -64,6 +69,24 @@ class Template
     public function getName(): ?string
     {
         return $this->tplName;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDelimiters(): array
+    {
+        [$start, $end] = explode('|', self::$delimiters);
+        return compact('start', 'end');
+    }
+
+    /**
+     * @param string $start
+     * @param string $end
+     */
+    public function setDelimiters(string $start, string $end): void
+    {
+        self::$delimiters = implode(compact('start', 'end'), '|');
     }
 
     public function __toString()
