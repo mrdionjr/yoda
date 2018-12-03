@@ -27,7 +27,8 @@
   "require": {
     "php": "~7.1",
     "symfony/console": "^4.2",
-    "league/csv": "^9.1"
+    "league/csv": "^9.1",
+    "padraic/phar-updater": "^1.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
