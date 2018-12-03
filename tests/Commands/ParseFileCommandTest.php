@@ -8,17 +8,31 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class ParseFileCommandTest extends TestCase
 {
-    public function testExecute()
+    /** @var CommandTester */
+    private $commandTester;
+
+    public function setUp()
     {
-        $application = new Application('Yoda CLI', '0.1.0');
+        $application = new Application();
         $application->add(new ParseFileCommand());
         $command = $application->find('parse');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute([
-            'path' => dirname(__DIR__) . '/template-test.txt',
-            'keys' => ['name' => 'Kaelo']
-        ]);
-        $output = $commandTester->getDisplay();
-        $this->assertTrue(true);
+        $this->commandTester = new CommandTester($command);
+    }
+
+    public function testExecute()
+    {
+        $this->commandTester->execute([
+            'path' => dirname(__DIR__) . '/template.txt',
+            '--dump' => true,
+            '--output' => dirname(__DIR__),
+            'keys' => ['name']
+        ], ['interactive' => ['name' => 'Yoda']]);
+        $output = $this->commandTester->getOutput();
+        $this->assertContains('Yoda', $output);
+    }
+
+    protected function tearDown()
+    {
+        $this->commandTester = null;
     }
 }
